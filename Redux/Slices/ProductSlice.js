@@ -25,7 +25,7 @@ export const productSlice = createSlice({
         if (product.id === action.payload.id) {
           if (action.payload.sign == 1) {
             product.qty += 1;
-          } else {
+          } else if (action.payload.sign == -1 && product.qty > 0) {
             product.qty -= 1;
           }
         }
