@@ -7,32 +7,38 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
+import { updateCart } from "../Redux/Slices/ProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Cart({ navigation }) {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.productsReducer.cart);
+  console.log(cart);
 
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() =>
-          navigation.navigate("SingleProduct", { productID: item.id })
-        }
-      >
+      <View style={styles.card}>
         <Text style={styles.heading}>{item.title}</Text>
         <Image style={styles.image} source={{ uri: item.thumbnail }} />
         <Text style={styles.desc}>{item.description}</Text>
         <Text style={styles.price}>₹ {item.price}</Text>
-        <Pressable style={styles.btn}>
-          <Text style={styles.cartText}>+</Text>
-        </Pressable>
 
-        <Pressable style={styles.btn}>
-          <Text style={styles.cartText}>-</Text>
-        </Pressable>
-      </TouchableOpacity>
+        <View style={styles.qty}>
+          <Text
+            style={styles.cartText}
+            onPress={() => dispatch(updateCart({ id: item.id, sign: -1 }))}
+          >
+            -
+          </Text>
+          <Text>Qty: {item.qty}</Text>
+          <Text
+            style={styles.cartText}
+            onPress={() => dispatch(updateCart({ id: item.id, sign: 1 }))}
+          >
+            +
+          </Text>
+        </View>
+      </View>
     );
   };
 
@@ -44,13 +50,19 @@ export default function Cart({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  qty: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+  },
   cartText: {
-    borderRadius: 5,
+    borderRadius: 10,
     backgroundColor: "black",
     textAlign: "center",
-    marginTop: 10,
     color: "white",
     padding: 5,
+    width: 25,
   },
   heading: {
     textAlign: "center",

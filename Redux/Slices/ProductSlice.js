@@ -20,6 +20,17 @@ export const productSlice = createSlice({
       const newItem = { ...action.payload, qty: 1 };
       state.cart = [...state.cart, newItem];
     },
+    updateCart: (state, action) => {
+      state.cart.map((product) => {
+        if (product.id === action.payload.id) {
+          if (action.payload.sign == 1) {
+            product.qty += 1;
+          } else {
+            product.qty -= 1;
+          }
+        }
+      });
+    },
   },
   extraReducers(builder) {
     builder
@@ -33,6 +44,6 @@ export const productSlice = createSlice({
   },
 });
 
-export const { addToCart } = productSlice.actions;
+export const { addToCart, updateCart } = productSlice.actions;
 
 export default productSlice.reducer;
