@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
-import { addToCart } from "../Redux/Slices/ProductSlice.js";
+import { addToCart } from "../Redux/Slices/ProductSlice";
+import { useDispatch } from "react-redux";
 
 export default function SingleProduct({ route }) {
   const [item, setItem] = useState([]);
-
+  const dispatch = useDispatch();
   const add = (item) => {
     dispatch(addToCart(item));
   };
